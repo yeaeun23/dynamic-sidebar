@@ -1,7 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
 import * as Styled from "./Sidebar.styles";
 import TreeNode from "./TreeNode";
+import orgData from "../data/tree.json";
 
 interface SidebarProps {
   isFloating: boolean;
@@ -15,7 +16,6 @@ interface SidebarProps {
 function Sidebar(props: SidebarProps) {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isResizing = useRef(false);
-  const [orgData, setOrgData] = useState<any[]>([]);
 
   const onMouseDown = (e: React.MouseEvent) => {
     isResizing.current = true;
@@ -36,10 +36,6 @@ function Sidebar(props: SidebarProps) {
   };
 
   useEffect(() => {
-    fetch("./tree.json")
-      .then((res: Response) => res.json())
-      .then((data) => setOrgData(data));
-
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
 
@@ -51,23 +47,29 @@ function Sidebar(props: SidebarProps) {
 
   return (
     <Styled.Sidebar ref={sidebarRef} width={props.width} $isFloating={props.isFloating}>
-      {/* 고정 스위치 */}
-      <Form.Check
-        type="switch"
-        label="Fixed / Floating"
-        checked={props.isFloating}
-        onChange={() => props.setIsFloating((prev: boolean) => !prev)}
-      />
-      {/* 리사이즈 스위치 */}
-      <Form.Check
-        type="switch"
-        label="Resize Handler"
-        checked={props.isResizable}
-        onChange={() => props.setIsResizable((prev: boolean) => !prev)}
-      />
-      {props.isResizable && <Styled.ResizeHandler onMouseDown={onMouseDown} />}
+      <Styled.Settings>
+        {/* 고정 스위치 */}
+        <Form.Check
+          type="switch"
+          label="Fixed / Floating"
+          checked={props.isFloating}
+          onChange={() => props.setIsFloating((prev: boolean) => !prev)}
+        />
+        {/* 리사이즈 스위치 */}
+        <Form.Check
+          type="switch"
+          label="Resize Handler"
+          checked={props.isResizable}
+          onChange={() => props.setIsResizable((prev: boolean) => !prev)}
+        />
+      </Styled.Settings>
 
-      {/* 조직도 */}
+      {
+        /* 리사이즈 핸들러 */
+        props.isResizable && <Styled.ResizeHandler onMouseDown={onMouseDown} />
+      }
+
+      {/* 조직도(트리) */}
       <Styled.Department>
         {orgData.map((node) => (
           <TreeNode key={node.deptCode} node={node} />

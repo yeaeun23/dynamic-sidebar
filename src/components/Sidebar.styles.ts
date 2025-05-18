@@ -12,8 +12,11 @@ export const Sidebar = styled.div.attrs<{ width: number }>((props) => ({
   left: 0;
   top: 0;
   bottom: 0;
-  padding: 20px;
   z-index: 1000;
+`;
+
+export const Settings = styled.div`
+  padding: 40px 20px;
 `;
 
 export const ResizeHandler = styled.div`
@@ -31,5 +34,5 @@ export const ResizeHandler = styled.div`
 `;
 
 export const Department = styled.div`
-  margin-top: 50px;
+  margin-top: 30px;
 `;

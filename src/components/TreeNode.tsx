@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import * as Styled from "./TreeNode.styles";
 
 interface TreeNodeProps {
   node: any;
@@ -8,31 +10,47 @@ interface TreeNodeProps {
 function TreeNode({ node, level = 0 }: TreeNodeProps) {
   const [expanded, setExpanded] = useState<boolean>(false);
   const hasChildren: boolean = node.subDept && node.subDept.length > 0;
+  const navigate = useNavigate();
+  const { deptCode } = useParams<{ deptCode?: string }>();
+  const isActive = deptCode === String(node.deptCode);
+  const depthWidth = 20;
+
+  const handleClickDept = () => {
+    navigate(`/dept/${node.deptCode}`);
+  };
 
   return (
-    <div style={{ marginLeft: level === 0 ? 0 : 20 }}>
-      <div
-        onClick={() => hasChildren && setExpanded(!expanded)}
-        style={{
-          cursor: "pointer",
-          display: "flex",
-          gap: 10,
-        }}
-      >
-        {hasChildren ? (
-          <i className={`bi ${expanded ? "bi-dash-circle" : "bi-plus-circle-fill"}`} />
-        ) : (
-          <span style={{ marginLeft: 20 }} />
-        )}
+    <>
+      <Styled.NodeRow $active={isActive} $level={level} onClick={handleClickDept}>
+        {/* 들여쓰기 */}
+        <span style={{ paddingLeft: level === 0 ? 0 : depthWidth }}></span>
+        {
+          /* 펼치기/접기 아이콘 */
+          hasChildren ? (
+            <i
+              className={`bi ${expanded ? "bi-dash-circle" : "bi-plus-circle-fill"}`}
+              onClick={(e) => {
+                e.stopPropagation(); // 부모 클릭 이벤트 전파 차단
+                setExpanded(!expanded);
+              }}
+            />
+          ) : (
+            <Styled.IconPlaceholder />
+          )
+        }
+        {/* 부서명 */}
         <span>{node.deptName}</span>
-      </div>
+      </Styled.NodeRow>
 
-      {expanded &&
-        hasChildren &&
-        node.subDept.map((dept: any) => (
-          <TreeNode key={dept.deptCode} node={dept} level={level + 1} />
-        ))}
-    </div>
+      {
+        /* 하위 부서 */
+        expanded &&
+          hasChildren &&
+          node.subDept.map((dept: any) => (
+            <TreeNode key={dept.deptCode} node={dept} level={level + 1} />
+          ))
+      }
+    </>
   );
 }
 
