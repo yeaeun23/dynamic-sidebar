@@ -1,0 +1,66 @@
+[
+  {
+    "deptCode": 10000,
+    "deptName": "회사 본부",
+    "subDept": [
+      {
+        "deptCode": 11000,
+        "deptName": "기획팀",
+        "subDept": [
+          {
+            "deptCode": 11100,
+            "deptName": "전략 파트",
+            "subDept": [
+              {
+                "deptCode": 11110,
+                "deptName": "신사업 분석",
+                "subDept": [
+                  {
+                    "deptCode": 11111,
+                    "deptName": "시장 조사"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "deptCode": 12000,
+        "deptName": "개발팀",
+        "subDept": [
+          {
+            "deptCode": 12100,
+            "deptName": "프론트엔드"
+          },
+          {
+            "deptCode": 12200,
+            "deptName": "백엔드"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "deptCode": 20000,
+    "deptName": "제품관리 본부",
+    "subDept": [
+      {
+        "deptCode": 21000,
+        "deptName": "제품"
+      },
+      {
+        "deptCode": 22000,
+        "deptName": "관리"
+      }
+    ]
+  },
+  {
+    "deptCode": 30000,
+    "deptName": "영업팀"
+  },
+  {
+    "deptCode": 40000,
+    "deptName": "인사팀"
+  }
+]
