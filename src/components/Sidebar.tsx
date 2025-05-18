@@ -36,7 +36,7 @@ function Sidebar(props: SidebarProps) {
   };
 
   useEffect(() => {
-    fetch("/tree.json")
+    fetch("./tree.json")
       .then((res: Response) => res.json())
       .then((data) => setOrgData(data));
 
